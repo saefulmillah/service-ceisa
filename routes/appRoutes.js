@@ -6,5 +6,7 @@ module.exports = function(app) {
   // booking Routes
   app.route('/booking')
     .post(booking.putRequestBooking);
+  app.route('/booking')
+  	.get(booking.ujiCoba);
 };
 
