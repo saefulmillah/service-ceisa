@@ -22,8 +22,9 @@ exports.putRequestBooking = function(req, res) {
 };
 
 exports.ujiCoba = function (req, res) {
-  Booking.ujiCoba(function (err, result) {
     console.log("Berhasil");
-    return
-  });
+  // Booking.ujiCoba(function (err, result) {
+  //   console.log("Berhasil");
+  //   return
+  // });
 };
