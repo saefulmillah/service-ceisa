@@ -32,6 +32,7 @@ Booking.insertRequestBooking = function (query, result) {
 	var detailBooking = query.container;
 	let headerBooking = {
 		booking_date : query.booking_date, 
+		origin : query.POD,
 		destination : query.destination, 
 		depo : query.depo, 
 		plan_date : query.plan_date, 
@@ -47,36 +48,42 @@ Booking.insertRequestBooking = function (query, result) {
             result(err, null);
         }
         else{
-            result(null, res);
+            result(null, res.insertId);
+            InsDetailBooking(res.insertId);
         }
     }); 
-    
-	let promises = []
 
-	var ArrBookingDetail = detailBooking.map((resdetailBooking) => { 
-		promises.push(new Promise(resolve => {
-			let {container_no, container_size, container_type} = resdetailBooking
-			let detailBooking = {
-				container_no : container_no,
-				container_size : container_size,
-				container_type : container_type
-			}
-			sql.query("INSERT INTO torder_detail SET ?", detailBooking, function (err, res) {             
-		        if(err) {
-		            // console.log("error: ", err);
-		            result(err, null);
-		        }
-		        else{
-		            result(null, res);
-		        }
-		    }); 			
-			// console.log(detailBooking);
-		}))
+    function InsDetailBooking(LastInsertID) {
+    	let promises = []
 
-		Promise.all(promises).then(result => {
-			sql.release
+		var ArrBookingDetail = detailBooking.map((resdetailBooking) => { 
+			promises.push(new Promise(resolve => {
+				let {booking_no, container_no, container_size, container_type} = resdetailBooking
+				let detailBooking = {
+					booking_no : LastInsertID,
+					container_no : container_no,
+					container_size : container_size,
+					container_type : container_type
+				}
+				sql.query("INSERT INTO torder_detail SET ?", detailBooking)
+				// sql.query("INSERT INTO torder_detail SET ?", detailBooking, function (err, res) {             
+			 //        if(err) {
+			 //            // console.log("error: ", err);
+			 //            result(err, null);
+			 //        }
+			 //        else{
+			 //            result(null, res);
+			 //        }
+			 //    }); 			
+				// console.log(detailBooking);
+			}))
+
+			Promise.all(promises).then(result => {
+				sql.release
+			})
 		})
-	})
+    }
+
 }
 
 module.exports = Booking;
