@@ -46,21 +46,30 @@ Booking.insertRequestBooking = function (query, result) {
         if(err) {
             // console.log("error: ", err);
             result(err, null);
-        }
-        else{
+        } else {
+        	let FieldFromHeader = {
+        		booking_no : res.insertId
+        		origin : query.POD,
+				destination : query.destination, 
+				depo : query.depo,
+        	}
             result(null, res.insertId);
-            InsDetailBooking(res.insertId);
+            InsDetailBooking(FieldFromHeader);
         }
     }); 
 
-    function InsDetailBooking(LastInsertID) {
+    function InsDetailBooking(FieldFromHeader) {
     	let promises = []
+    	var rowFieldFromHeader = FieldFromHeader;
 
 		var ArrBookingDetail = detailBooking.map((resdetailBooking) => { 
 			promises.push(new Promise(resolve => {
 				let {booking_no, container_no, container_size, container_type} = resdetailBooking
 				let detailBooking = {
-					booking_no : LastInsertID,
+					booking_no : rowFieldFromHeader.booking_no,
+					depo : rowFieldFromHeader.depo,
+					origin : rowFieldFromHeader.origin,
+					destination : rowFieldFromHeader.destination,
 					container_no : container_no,
 					container_size : container_size,
 					container_type : container_type
