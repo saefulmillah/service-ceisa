@@ -31,6 +31,7 @@ Booking.insertRequestBooking = function (query, result) {
 	// return
 	var detailBooking = query.container;
 	let headerBooking = {
+		customer : 656,
 		booking_date : query.booking_date, 
 		origin : query.POD,
 		destination : query.destination, 
