@@ -53,6 +53,7 @@ Booking.insertRequestBooking = function (query, result) {
 				destination : query.destination, 
 				depo : query.depo,
         	}
+        	console.log(FieldFromHeader);
             result(null, res.insertId);
             InsDetailBooking(FieldFromHeader);
         }
@@ -74,6 +75,7 @@ Booking.insertRequestBooking = function (query, result) {
 					container_size : container_size,
 					container_type : container_type
 				}
+				console.log(detailBooking);
 				sql.query("INSERT INTO torder_detail SET ?", detailBooking)
 				// sql.query("INSERT INTO torder_detail SET ?", detailBooking, function (err, res) {             
 			 //        if(err) {
