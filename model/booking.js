@@ -48,7 +48,7 @@ Booking.insertRequestBooking = function (query, result) {
             result(err, null);
         } else {
         	let FieldFromHeader = {
-        		booking_no : res.insertId
+        		booking_no : res.insertId,
         		origin : query.POD,
 				destination : query.destination, 
 				depo : query.depo,
