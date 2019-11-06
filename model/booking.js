@@ -99,4 +99,28 @@ Booking.insertRequestBooking = function (query, result) {
 
 }
 
+Booking.updateBooking = function (query) {
+	var a = query
+	console.log(a)
+	// return
+	sql.query("UPDATE tbooking SET booking_status = ? WHERE idRequestBooking = ?", [1, a.idRequestBooking])
+}
+
+Booking.insertOrder = function (query, result) {
+	var a = query
+	var data = {
+		booking : a.idRequestBooking,
+		order_date : new Date()
+	}
+	console.log(a)
+	// return
+	sql.query("INSERT INTO torder SET ?", data, function (err, res) {
+		if (err) {
+			result(err, null)
+		} else {
+			result(null, res)
+		}
+	})
+}
+
 module.exports = Booking;
