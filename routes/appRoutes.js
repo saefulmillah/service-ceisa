@@ -8,7 +8,7 @@ module.exports = function(app) {
   app.route('/booking')
     .post(booking.putRequestBooking)
   app.route('/booking/put_pick_booking')
-  	.post(put_pick_booking.insert_order)
+  	.post(put_pick_booking.put_pick_booking)
   app.route('/booking')
   	.get(booking.ujiCoba)
 }

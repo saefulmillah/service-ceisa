@@ -99,26 +99,41 @@ Booking.insertRequestBooking = function (query, result) {
 
 }
 
-Booking.updateBooking = function (query) {
-	var a = query
-	console.log(a)
-	// return
-	sql.query("UPDATE tbooking SET booking_status = ? WHERE idRequestBooking = ?", [1, a.idRequestBooking])
+Booking.update_booking = function (query) {
+	return new Promise(resolve => {
+		var a = query
+		var q = "UPDATE tbooking SET booking_status = ? WHERE idRequestBooking = ?"
+
+		sql.query(q, [1, a.idRequestBooking], function (err, res) {
+			if (err) {
+				console.log("error async_1 >", err)
+				resolve(err)
+			} else {
+				resolve(res)
+			}
+		})
+	})
 }
 
-Booking.insertOrder = function (query, result) {
+Booking.insert_order = function (query, result) {
 	var a = query
-	var data = {
-		booking : a.idRequestBooking,
-		order_date : new Date()
-	}
-	console.log(a)
-	// return
-	sql.query("INSERT INTO torder SET ?", data, function (err, res) {
-		if (err) {
+	var q = "INSERT INTO torder (order_date, booking) SELECT ?, id FROM `tbooking` WHERE idRequestBooking = ? AND booking_status <> 0"
+
+	sql.query(q, [new Date(), a.idRequestBooking], function (err, res) {
+		
+		if (err) 
 			result(err, null)
+		console.log(res.affectedRows)
+		if (res.affectedRows==0) {
+			result(null, {
+				message : 'ERROR BOOKING TIDAK DITEMUKAN',
+				data : res
+			})
 		} else {
-			result(null, res)
+			result(null, {
+				message : 'SUCCESS',
+				data : res
+			})
 		}
 	})
 }
