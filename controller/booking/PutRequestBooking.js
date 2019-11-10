@@ -6,7 +6,7 @@ exports.putRequestBooking = function(req, res) {
   var a = req.body
   // console.log(a)
   // return
-  Booking.insertRequestBooking(a, function (err, result) {
+  var b = Booking.insertRequestBooking(a, function (err, result) {
     if (err) {
       res.send(err);
     } else {

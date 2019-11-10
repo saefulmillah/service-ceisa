@@ -43,23 +43,45 @@ Booking.insertRequestBooking = function (query, result) {
 		sp2valid_date : query.sp2valid_date, 
 		spcvalid_date : query.spcvalid_date		
 	}
-	
-	sql.query("INSERT INTO tbooking SET ?", headerBooking, function (err, res) {             
-        if(err) {
-            // console.log("error: ", err);
-            result(err, null);
-        } else {
-        	let FieldFromHeader = {
-        		booking_no : res.insertId,
-        		origin : query.POD,
-				destination : query.destination, 
-				depo : query.depo,
-        	}
-        	console.log(FieldFromHeader);
-            result(null, res.insertId);
-            InsDetailBooking(FieldFromHeader);
-        }
-    }); 
+
+	sql.query("SELECT * FROM tbooking WHERE idRequestBooking = ?", query.idRequestBooking, function (err, res) {
+		if (err) {
+			result(err, null)
+		} else {
+			if (res.length < 1) {
+				var res_row = {
+					message : "DATA TIDAK DITEMUKAN",
+					data : []
+				}
+				InsHeaderBooking(headerBooking)
+			} else {
+				var res_row = {
+					message : "DATA DITEMUKAN",
+					data : res
+				}
+				result(null, res_row)
+			}
+		}
+	})
+
+	function InsHeaderBooking(headerBooking) {
+		sql.query("INSERT INTO tbooking SET ?", headerBooking, function (err, res) {             
+	        if(err) {
+	            // console.log("error: ", err);
+	            result(err, null);
+	        } else {
+	        	let FieldFromHeader = {
+	        		booking_no : res.insertId,
+	        		origin : query.POD,
+					destination : query.destination, 
+					depo : query.depo,
+	        	}
+	        	// console.log(FieldFromHeader)
+	            result(null, res.insertId)
+	            InsDetailBooking(FieldFromHeader)
+	        }
+	    })
+	} 
 
     function InsDetailBooking(FieldFromHeader) {
     	let promises = []
