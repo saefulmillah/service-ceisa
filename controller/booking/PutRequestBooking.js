@@ -12,8 +12,9 @@ exports.putRequestBooking = function(req, res) {
     } else {
     // console.log('hasil controller : '+result);
       res.status(200).json({
-        status : "success",
-        data : result
+        status : result.status,
+        message : result.message
+        // data : result.data
       });
     }
   });
