@@ -151,22 +151,40 @@ Booking.insert_order = function (query, result) {
 
 Booking.get_confirm_payment = function (query, result) {
 	var msg_order_status = ""
+	var message = ""
+	var status = ""
+	var idRequestBooking = ""
 	var a = query
 	var q = "SELECT * FROM tbooking a INNER JOIN torder b WHERE a.id=b.booking AND a.idRequestBooking = ?"
 	sql.query(q, [a.idRequestBooking], function (err, res) {
 		if (err) {
 			result(err, null)
 		} else {
-			if (res[0].order_status==5) {
-				msg_order_status = "PAID"
+			// console.log(res.length)
+			// return
+			if (res.length > 0) {
+				if (res[0].order_status==5) {
+					msg_order_status = "PAID"
+					message = "BOOKING DITEMUKAN"
+					status = "SUCCESS"
+					idRequestBooking = res[0].idRequestBooking
+				} else {
+					message = "BOOKING DITEMUKAN"
+					msg_order_status = "UNPAID"
+					status = "SUCCESS"
+					idRequestBooking = res[0].idRequestBooking
+				}
 			} else {
-				msg_order_status = "UNPAID"
+				message = "BOOKING TIDAK DITEMUKAN"
+				msg_order_status = ""
+				status = ""
+				idRequestBooking = ""
 			}
 			result(null, {
-				message : 'BOOKING DITEMUKAN',
-				status : 'SUCCESS',
+				message : message,
+				status : status,
 				data : {
-						idRequestBooking : res[0].idRequestBooking,
+						idRequestBooking : idRequestBooking,
 						order_status : msg_order_status
 					}
 			})
