@@ -150,18 +150,24 @@ Booking.insert_order = function (query, result) {
 }
 
 Booking.get_confirm_payment = function (query, result) {
+	var msg_order_status = ""
 	var a = query
 	var q = "SELECT * FROM tbooking a INNER JOIN torder b WHERE a.id=b.booking AND a.idRequestBooking = ?"
 	sql.query(q, [a.idRequestBooking], function (err, res) {
 		if (err) {
 			result(err, null)
 		} else {
+			if (res[0].order_status==5) {
+				msg_order_status = "PAID"
+			} else {
+				msg_order_status = "UNPAID"
+			}
 			result(null, {
 				message : 'BOOKING DITEMUKAN',
 				status : 'SUCCESS',
 				data : {
 						idRequestBooking : res[0].idRequestBooking,
-						order_status : res[0].order_status
+						order_status : msg_order_status
 					}
 			})
 		}
