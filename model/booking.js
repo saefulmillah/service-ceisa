@@ -166,8 +166,8 @@ Booking.get_confirm_payment = function (query, result) {
 				message : 'BOOKING DITEMUKAN',
 				status : 'SUCCESS',
 				data : {
-						booking_no : res[0].idRequestBooking,
-						paid_status : res[0].booking_status
+						idRequestBooking : res[0].idRequestBooking,
+						order_status : res[0].order_status
 					}
 			})
 		}
