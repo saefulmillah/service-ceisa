@@ -139,7 +139,7 @@ Booking.insert_order = function (query, result) {
 				})
 			} else {
 				result(null, {
-					message : 'BOOKING DITEMUKAN',
+					message : 'BOOKING DITEMUKAN DAN DI UPDATE',
 					status : 'SUCCESS',
 					data : res
 				})
