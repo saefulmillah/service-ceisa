@@ -2,9 +2,9 @@
 
 var Booking = require('../../model/booking.js')
 
-exports.put_pick_booking = async function (req, res) {
+exports.put_pick_booking = function (req, res) {
   var a = req.body
-  let p1 = await Booking.update_booking(a, res)
+  // let p1 = await Booking.insert_order(a, res)
   // console.log(a)
   // console.log("p1 >", p1)
 

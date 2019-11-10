@@ -115,44 +115,38 @@ Booking.insertRequestBooking = function (query, result) {
 }
 
 Booking.update_booking = function (query) {
-	return new Promise(resolve => {
-		var a = query
-		var q = "UPDATE tbooking SET booking_status = ? WHERE idRequestBooking = ?"
+	var a = query
+	var q = "UPDATE tbooking SET booking_status = ? WHERE idRequestBooking = ?"
 
-		sql.query(q, [1, a.idRequestBooking], function (err, res) {
-			if (err) {
-				console.log("error async_1 >", err)
-				resolve(err)
-			} else {
-				resolve(res)
-			}
-		})
-	})
+	sql.query(q, [1, a.idRequestBooking])
 }
 
 Booking.insert_order = function (query, result) {
-	var a = query
-	var q = "INSERT INTO torder (order_date, booking) SELECT ?, id FROM `tbooking` WHERE idRequestBooking = ? AND booking_status = 0"
+	// return new Promise(resolve => {
+		var a = query
+		var q = "INSERT INTO torder (order_date, booking) SELECT ?, id FROM `tbooking` WHERE idRequestBooking = ? AND booking_status = 0"
 
-	sql.query(q, [new Date(), a.idRequestBooking], function (err, res) {
-		
-		if (err) 
-			result(err, null)
-		console.log(res.affectedRows)
-		if (res.affectedRows==0) {
-			result(null, {
-				message : 'ID REQUEST BOOKING TIDAK ADA ATAU SUDAH DIPILIH',
-				status : 'ERROR',
-				data : res
-			})
-		} else {
-			result(null, {
-				message : 'BOOKING DITEMUKAN',
-				status : 'SUCCESS',
-				data : res
-			})
-		}
-	})
+		sql.query(q, [new Date(), a.idRequestBooking], function (err, res) {
+			
+			if (err) 
+				result(err, null)
+			console.log(res.affectedRows)
+			if (res.affectedRows==0) {
+				result(null, {
+					message : 'ID REQUEST BOOKING TIDAK ADA ATAU SUDAH DIPILIH',
+					status : 'ERROR',
+					data : res
+				})
+			} else {
+				result(null, {
+					message : 'BOOKING DITEMUKAN',
+					status : 'SUCCESS',
+					data : res
+				})
+				Booking.update_booking(query)
+			}
+		})
+	// })
 }
 
 Booking.get_confirm_payment = function (query, result) {
