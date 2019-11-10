@@ -104,16 +104,6 @@ Booking.insertRequestBooking = function (query, result) {
 				}
 				console.log(detailBooking);
 				sql.query("INSERT INTO torder_detail SET ?", detailBooking)
-				// sql.query("INSERT INTO torder_detail SET ?", detailBooking, function (err, res) {             
-			 //        if(err) {
-			 //            // console.log("error: ", err);
-			 //            result(err, null);
-			 //        }
-			 //        else{
-			 //            result(null, res);
-			 //        }
-			 //    }); 			
-				// console.log(detailBooking);
 			}))
 
 			Promise.all(promises).then(result => {
@@ -160,6 +150,25 @@ Booking.insert_order = function (query, result) {
 				message : 'BOOKING DITEMUKAN',
 				status : 'SUCCESS',
 				data : res
+			})
+		}
+	})
+}
+
+Booking.get_confirm_payment = function (query, result) {
+	var a = query
+	var q = "SELECT * FROM tbooking a INNER JOIN torder b WHERE a.id=b.booking AND a.idRequestBooking = ?"
+	sql.query(q, [a.idRequestBooking], function (err, res) {
+		if (err) {
+			result(err, null)
+		} else {
+			result(null, {
+				message : 'BOOKING DITEMUKAN',
+				status : 'SUCCESS',
+				data : {
+						booking_no : res[0].idRequestBooking,
+						paid_status : res[0].booking_status
+					}
 			})
 		}
 	})
