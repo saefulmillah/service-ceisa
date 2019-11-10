@@ -151,7 +151,7 @@ Booking.insert_order = function (query, result) {
 		console.log(res.affectedRows)
 		if (res.affectedRows==0) {
 			result(null, {
-				message : 'ID REQUEST BOOKING SUDAH DIPILIH',
+				message : 'ID REQUEST BOOKING TIDAK ADA ATAU SUDAH DIPILIH',
 				status : 'ERROR',
 				data : res
 			})
