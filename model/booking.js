@@ -50,7 +50,7 @@ Booking.insertRequestBooking = function (query, result) {
 		} else {
 			if (res.length < 1) {
 				var res_row = {
-					message : "DATA TIDAK DITEMUKAN",
+					message : "DATA TIDAK DITEMUKAN NIH 1506",
 					data : []
 				}
 				InsHeaderBooking(headerBooking)
