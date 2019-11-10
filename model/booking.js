@@ -2,6 +2,7 @@
 var sql = require('./db.js')
 
 //Constructor
+// booking model
 var Booking = function (booking) {
 	this.id = booking.id;
 	this.booking_date = booking.booking_date;
