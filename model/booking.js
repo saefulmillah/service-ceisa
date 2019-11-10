@@ -142,7 +142,7 @@ Booking.update_booking = function (query) {
 
 Booking.insert_order = function (query, result) {
 	var a = query
-	var q = "INSERT INTO torder (order_date, booking) SELECT ?, id FROM `tbooking` WHERE idRequestBooking = ? AND booking_status <> 0"
+	var q = "INSERT INTO torder (order_date, booking) SELECT ?, id FROM `tbooking` WHERE idRequestBooking = ? AND booking_status = 0"
 
 	sql.query(q, [new Date(), a.idRequestBooking], function (err, res) {
 		
@@ -151,12 +151,14 @@ Booking.insert_order = function (query, result) {
 		console.log(res.affectedRows)
 		if (res.affectedRows==0) {
 			result(null, {
-				message : 'ERROR BOOKING TIDAK DITEMUKAN',
+				message : 'BOOKING TIDAK DITEMUKAN',
+				status : 'ERROR',
 				data : res
 			})
 		} else {
 			result(null, {
-				message : 'SUCCESS',
+				message : 'BOOKING DITEMUKAN',
+				status : 'SUCCESS',
 				data : res
 			})
 		}

@@ -12,7 +12,10 @@ exports.put_pick_booking = async function (req, res) {
     if (err) {
       res.json(err)
     } else {
-      res.json(result)
+      res.json({
+        status : result.status,
+        message : result.message
+      })
       // console.log("result insertOrder >", result)
     }
   })
