@@ -98,7 +98,7 @@ Booking.insertRequestBooking = function (query, result) {
 	function hitAPI02(headerBooking) {
 		var b = headerBooking
 		console.log(b)
-		return
+		// return
 		var request = require("request")
 		var options = {
 			method: 'POST',
@@ -112,6 +112,9 @@ Booking.insertRequestBooking = function (query, result) {
 		}
 
 		request(options)
+
+		console.log("request >", options)
+		console.log("result >", request(options))
 	} 
 
     function InsDetailBooking(FieldFromHeader) {
