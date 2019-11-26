@@ -9,10 +9,17 @@ const mysql = require('mysql');
 // connection configurations
 const mc = mysql.createConnection({
     host     : '209.58.180.97',
-    user     : 'ceisa',
-    password : 'ceisa123',
-    database : 'zadmin_ceisa'
+    user     : 'ndriiy',
+    password : 'ndriiy1234',
+    database : 'zadmin_tomsdb'
 });
+
+// const mc = mysql.createConnection({
+//     host     : '209.58.180.97',
+//     user     : 'ceisa',
+//     password : 'ceisa123',
+//     database : 'zadmin_ceisa'
+// });
  
 // connect to database
 mc.connect();
