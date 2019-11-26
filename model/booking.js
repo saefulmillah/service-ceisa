@@ -33,6 +33,7 @@ Booking.insertRequestBooking = function (query, result) {
 	var detailBooking = query.container;
 	let headerBooking = {
 		customer : 656,
+		company : 23,
 		idRequestBooking : query.idRequestBooking,
 		booking_date : query.booking_date, 
 		origin : query.POD,
@@ -79,11 +80,38 @@ Booking.insertRequestBooking = function (query, result) {
 					destination : query.destination, 
 					depo : query.depo,
 	        	}
+	        	let FieldforHitAPI02 = {
+	        		idRequestBooking : headerBooking.idRequestBooking
+	        		idServiceOrder : res.insertId,
+	        		hargaPenawaran : 5000000,
+	        		waktuPenawaran : "2019-09-08 14:00:00",
+	        		timestamp : "2019-09-08 14:00:00"
+	        	}
 	        	// console.log(FieldFromHeader)
 	            result(null, res.insertId)
 	            InsDetailBooking(FieldFromHeader)
+	            hitAPI02(FieldforHitAPI02)
 	        }
 	    })
+	}
+
+	function hitAPI02(headerBooking) {
+		var b = headerBooking
+		console.log(b)
+		return
+		var request = require("request")
+		var options = {
+			method: 'POST',
+		  	url: 'https://esbbcext01.beacukai.go.id:8082/DetilBooking',
+		  	headers: { 
+		  				'cache-control': 'no-cache',
+		     			'Content-Type': 'application/json' 
+		     		},
+			body: b,
+			json: true 
+		}
+
+		request(options)
 	} 
 
     function InsDetailBooking(FieldFromHeader) {

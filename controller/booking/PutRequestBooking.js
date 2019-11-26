@@ -17,9 +17,7 @@ exports.putRequestBooking = function(req, res) {
         // data : result.data
       });
     }
-  });
-
-  
+  });  
 };
 
 exports.ujiCoba = function (req, res) {
