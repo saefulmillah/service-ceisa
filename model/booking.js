@@ -46,6 +46,8 @@ Booking.insertRequestBooking = function (query, result) {
 		spcvalid_date : query.spcvalid_date		
 	}
 
+	console.log(headerBooking);
+
 	sql.query("SELECT * FROM tbooking WHERE idRequestBooking = ?", query.idRequestBooking, function (err, res) {
 		if (err) {
 			result(err, null)
@@ -66,6 +68,7 @@ Booking.insertRequestBooking = function (query, result) {
 				result(null, res_row)
 			}
 		}
+		console.log('this.sql', this.sql) //command/query
 	})
 
 	function InsHeaderBooking(headerBooking) {
@@ -81,7 +84,7 @@ Booking.insertRequestBooking = function (query, result) {
 					depo : query.depo,
 	        	}
 	        	let FieldforHitAPI02 = {
-	        		idRequestBooking : headerBooking.idRequestBooking
+	        		idRequestBooking : headerBooking.idRequestBooking,
 	        		idServiceOrder : res.insertId,
 	        		hargaPenawaran : 5000000,
 	        		waktuPenawaran : "2019-09-08 14:00:00",
