@@ -193,12 +193,22 @@ Booking.insertRequestBooking = function (query, result) {
 
 }
 
-Booking.update_booking = function (query) {
+Booking.update_booking = function (query, result) {
 	var a = query
 	var q = "UPDATE tbooking SET booking_status = ?, payment_method = ?, payment_channel = ? WHERE reff_no_int = ?"
 	// var q = "UPDATE tbooking SET booking_status = ?, payment_method = ? WHERE idRequestBooking = ?"
 
-	sql.query(q, [0, a.idRequestBooking, a.payment_method, a.payment_channel])
+	sql.query(q, [0, a.idRequestBooking, a.payment_method, a.payment_channel], function (err, res) {
+		if (err) {
+			result(err, null)
+		} else {
+			result(null, {
+					message : 'BOOKING DITEMUKAN DAN DI UPDATE',
+					status : 'SUCCESS',
+					data : res
+				})
+		}
+	})
 }
 
 Booking.insert_order = function (query, result) {

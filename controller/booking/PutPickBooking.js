@@ -8,7 +8,7 @@ exports.put_pick_booking = function (req, res) {
   // console.log(a)
   // console.log("p1 >", p1)
 
-  Booking.insert_order(a, function (err, result) {
+  Booking.update_booking(a, function (err, result) {
     if (err) {
       res.json(err)
     } else {
