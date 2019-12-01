@@ -34,21 +34,23 @@ Booking.insertRequestBooking = function (query, result) {
 	let headerBooking = {
 		customer : 656,
 		company : 23,
-		idRequestBooking : query.idRequestBooking,
+		reff_no_int : query.idRequestBooking,
 		booking_date : query.booking_date, 
 		origin_name : query.POD,
 		destination_name : query.destination, 
 		depo_name : query.depo, 
 		plan_date : query.plan_date, 
-		bl_no : query.bl_no, 
-		bl_date : query.bl_date, 
-		sp2valid_date : query.sp2valid_date, 
-		spcvalid_date : query.spcvalid_date		
+		doc_ref : query.bl_no, 
+		doc_date : query.bl_date, 
+		sp2_date : query.sp2valid_date, 
+		spc_exp_date : query.spcvalid_date,
+		update_date : "2019-12-01 13:07:59"
+		// booking_no : 		
 	}
 
 	console.log(headerBooking);
 
-	sql.query("SELECT * FROM tbooking WHERE idRequestBooking = ?", query.idRequestBooking, function (err, res) {
+	sql.query("SELECT * FROM tbooking WHERE reff_no_int = ?", query.idRequestBooking, function (err, res) {
 		if (err) {
 			result(err, null)
 		} else {
@@ -88,12 +90,48 @@ Booking.insertRequestBooking = function (query, result) {
 	        		idServiceOrder : res.insertId,
 	        		hargaPenawaran : 5000000,
 	        		waktuPenawaran : "2019-09-08 14:00:00",
-	        		timestamp : "2019-09-08 14:00:00"
+	        		timestamp : "2019-09-08 14:00:00", 
+	        		payment_method : [{
+								                    "method" : "Credit card",
+								                    "channel" : "BNI",
+								                    "idRequestBooking" : headerBooking.idRequestBooking
+								                },
+										{
+								                   "method" : "Credit card",
+								                    "channel" : "Mandiri",
+								                    "idRequestBooking" : headerBooking.idRequestBooking
+								                },
+										{
+								                   "method" : "Virtual Account",
+								                    "channel" : "Mandiri",
+								                    "idRequestBooking" : headerBooking.idRequestBooking
+										},
+										{
+								                   "method" : "Virtual Account",
+								                    "channel" : "BNI",
+								                    "idRequestBooking" : headerBooking.idRequestBooking
+										},
+										{
+								                   "method" : "Store",
+								                    "channel" : "Indomart",
+								                    "idRequestBooking" : headerBooking.idRequestBooking
+										},
+										{
+								                   "method" : "e-Wallet",
+								                    "channel" : "Doku",
+								                    "idRequestBooking" : headerBooking.idRequestBooking
+										},
+										{
+								                   "method" : "e-Wallet",
+								                    "channel" : "Link Aja",
+								                    "idRequestBooking" : headerBooking.idRequestBooking
+										}	
+									]
 	        	}
 	        	// console.log(FieldFromHeader)
 	            result(null, res.insertId)
 	            InsDetailBooking(FieldFromHeader)
-	            hitAPI02(FieldforHitAPI02)
+	            hitAPI02(FieldforHitAPI02, null)
 	        }
 	    })
 	}
@@ -114,7 +152,14 @@ Booking.insertRequestBooking = function (query, result) {
 			json: true 
 		}
 
-		request(options)
+		// request(options, function (error, response) {
+		// 	if (error) {
+		// 		result(error, null)
+		// 	} else {
+		// 		result(null, response.body)
+		// 		console.log("response >", response.body)
+		// 	}
+		// })
 
 		console.log("request >", options)
 		console.log("result >", request(options))
@@ -150,9 +195,10 @@ Booking.insertRequestBooking = function (query, result) {
 
 Booking.update_booking = function (query) {
 	var a = query
-	var q = "UPDATE tbooking SET booking_status = ? WHERE idRequestBooking = ?"
+	var q = "UPDATE tbooking SET booking_status = ?, payment_method = ?, payment_channel = ? WHERE idRequestBooking = ?"
+	// var q = "UPDATE tbooking SET booking_status = ?, payment_method = ? WHERE idRequestBooking = ?"
 
-	sql.query(q, [1, a.idRequestBooking])
+	sql.query(q, [1, a.idRequestBooking, a.payment_method, a.payment_channel])
 }
 
 Booking.insert_order = function (query, result) {
