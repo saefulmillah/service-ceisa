@@ -195,16 +195,16 @@ Booking.insertRequestBooking = function (query, result) {
 
 Booking.update_booking = function (query) {
 	var a = query
-	var q = "UPDATE tbooking SET booking_status = ?, payment_method = ?, payment_channel = ? WHERE idRequestBooking = ?"
+	var q = "UPDATE tbooking SET booking_status = ?, payment_method = ?, payment_channel = ? WHERE reff_no_int = ?"
 	// var q = "UPDATE tbooking SET booking_status = ?, payment_method = ? WHERE idRequestBooking = ?"
 
-	sql.query(q, [1, a.idRequestBooking, a.payment_method, a.payment_channel])
+	sql.query(q, [0, a.idRequestBooking, a.payment_method, a.payment_channel])
 }
 
 Booking.insert_order = function (query, result) {
 	// return new Promise(resolve => {
 		var a = query
-		var q = "INSERT INTO torder (order_date, booking) SELECT ?, id FROM `tbooking` WHERE idRequestBooking = ? AND booking_status = 0"
+		var q = "INSERT INTO torder (order_date, booking) SELECT ?, id FROM `tbooking` WHERE reff_no_int = ? AND booking_status = 0"
 
 		sql.query(q, [new Date(), a.idRequestBooking], function (err, res) {
 			
