@@ -32,8 +32,10 @@ Booking.insertRequestBooking = function (query, result) {
 	// return
 	var detailBooking = query.container;
 	let headerBooking = {
-		customer : 656,
+		customer : 658,
 		company : 23,
+		service : 1,
+		term : 2,
 		reff_no_int : query.idRequestBooking,
 		booking_date : query.booking_date, 
 		origin_name : query.POD,
@@ -197,8 +199,11 @@ Booking.update_booking = function (query, result) {
 	var a = query
 	var q = "UPDATE tbooking SET booking_status = ?, payment_method = ?, payment_channel = ? WHERE reff_no_int = ?"
 	// var q = "UPDATE tbooking SET booking_status = ?, payment_method = ? WHERE idRequestBooking = ?"
-
-	sql.query(q, [0, a.idRequestBooking, a.payment_method, a.payment_channel], function (err, res) {
+	// console.log(a)
+	// return
+	sql.query(q, [0, a.payment_method, a.payment_channel, a.idRequestBooking], function (err, res) {
+		// this.sql
+		console.log('this.sql', this.sql) //command/query
 		if (err) {
 			result(err, null)
 		} else {
